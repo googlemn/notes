@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Notes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Saved Notes</h1>
+        <div id="saved-notes"></div>
+        <a href="index.html" class="view-notes">Back to Notes</a>
+    </div>
+
+    <!-- Firebase JS SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // Your Firebase configuration object (replace with your own)
+       
+        const firebaseConfig = {
+  apiKey: "AIzaSyCjnAO208pXae9_5mNfvJ2MZZp1Zahb6r8",
+  authDomain: "notes-802d4.firebaseapp.com",
+  databaseURL: "https://notes-802d4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "notes-802d4",
+  storageBucket: "notes-802d4.appspot.com",
+  messagingSenderId: "960425149583",
+  appId: "1:960425149583:web:9c10e2f776c40476595cfa"
+};
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        var savedNotesDiv = document.getElementById('saved-notes');
+
+        // Fetch notes from Firebase and display them
+        database.ref('notes/').on('value', function(snapshot) {
+            var notes = snapshot.val();
+            savedNotesDiv.innerHTML = ''; // Clear previous notes
+
+            if (notes) {
+                Object.keys(notes).forEach(function(key) {
+                    var note = notes[key].note;
+
+                    var noteElement = document.createElement('div');
+                    noteElement.classList.add('note-item');
+
+                    var noteText = document.createElement('p');
+                    noteText.textContent = note;
+
+                    // Create delete button
+                    var deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.classList.add('delete-btn');
+
+                    // Add event listener to the delete button
+                    deleteBtn.addEventListener('click', function() {
+                        deleteNote(key); // Pass Firebase key for deletion
+                    });
+
+                    noteElement.appendChild(noteText);
+                    noteElement.appendChild(deleteBtn);
+                    savedNotesDiv.appendChild(noteElement);
+                });
+            } else {
+                savedNotesDiv.innerHTML = '<p>No notes saved yet.</p>';
+            }
+        });
+
+        // Function to delete note from Firebase
+        function deleteNote(noteId) {
+            database.ref('notes/' + noteId).remove().then(function() {
+                alert('Note deleted!');
+            }).catch(function(error) {
+                alert('Error deleting note: ' + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
