@@ -1,0 +1,154 @@
+/* General Layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* Light background color */
+    color: #333; /* Dark text color for contrast */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #ffffff; /* White background for content */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2rem; /* Responsive font size */
+    color: #2c3e50; /* Dark blue for headers */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    border: 1px solid #dbe2e8; /* Light border */
+    border-radius: 6px;
+    font-size: 1rem;
+    resize: vertical;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    background-color: #f9f9f9; /* Very light background for input */
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db; /* Primary blue color */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.view-saved-notes {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #2c3e50; /* Dark blue color */
+    padding: 10px 0;
+    border: 1px solid #dbe2e8; /* Light border */
+    border-radius: 6px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.view-saved-notes:hover {
+    color: #3498db; /* Change text color on hover */
+    border-color: #3498db; /* Change border color on hover */
+}
+
+/* Note Item Styles */
+.note-item {
+    background-color: #ffffff; /* White background for notes */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dbe2e8; /* Light border for notes */
+    margin-bottom: 20px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-item p {
+    margin: 0 0 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.timestamp {
+    display: block;
+    font-size: 0.875rem;
+    color: #7f8c8d; /* Lighter gray for timestamp */
+    margin-bottom: 10px;
+}
+
+.delete-btn {
+    background-color: #e74c3c; /* Red color for delete button */
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Links and Buttons */
+.back-to-notes {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #3498db; /* Primary blue color */
+    padding: 10px 0;
+    border: 1px solid #dbe2e8; /* Light border */
+    border-radius: 6px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.back-to-notes:hover {
+    color: #2980b9; /* Darker blue on hover */
+    border-color: #2980b9; /* Change border color on hover */
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    textarea {
+        height: 120px;
+    }
+
+    button {
+        font-size: 0.875rem;
+        padding: 8px;
+    }
+}

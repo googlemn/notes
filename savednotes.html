@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Notes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Saved Notes</h1>
+        <div id="saved-notes" class="notes-container"></div>
+        <a href="index.html" class="back-to-notes">Back to Add Notes</a>
+    </div>
+
+    <!-- Firebase JS SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCjnAO208pXae9_5mNfvJ2MZZp1Zahb6r8",
+  authDomain: "notes-802d4.firebaseapp.com",
+  databaseURL: "https://notes-802d4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "notes-802d4",
+  storageBucket: "notes-802d4.appspot.com",
+  messagingSenderId: "960425149583",
+  appId: "1:960425149583:web:9c10e2f776c40476595cfa"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        var savedNotesDiv = document.getElementById('saved-notes');
+
+        database.ref('notes/').on('value', function(snapshot) {
+            var notes = snapshot.val();
+            savedNotesDiv.innerHTML = '';
+
+            if (notes) {
+                var notesArray = Object.keys(notes).map(function(key) {
+                    return {
+                        id: key,
+                        note: notes[key].note,
+                        timestamp: notes[key].timestamp
+                    };
+                });
+
+                notesArray.sort(function(a, b) {
+                    return b.timestamp - a.timestamp;
+                });
+
+                notesArray.forEach(function(noteObj) {
+                    var noteElement = document.createElement('div');
+                    noteElement.classList.add('note-item');
+
+                    var noteText = document.createElement('p');
+                    noteText.textContent = noteObj.note;
+
+                    var noteTimestamp = document.createElement('span');
+                    noteTimestamp.classList.add('timestamp');
+                    var date = new Date(noteObj.timestamp);
+                    noteTimestamp.textContent = 'Created on: ' + date.toLocaleString();
+
+                    var deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = '×';
+                    deleteBtn.classList.add('delete-btn');
+
+                    deleteBtn.addEventListener('click', function() {
+                        deleteNote(noteObj.id);
+                    });
+
+                    noteElement.appendChild(noteText);
+                    noteElement.appendChild(noteTimestamp);
+                    noteElement.appendChild(deleteBtn);
+                    savedNotesDiv.appendChild(noteElement);
+                });
+            } else {
+                savedNotesDiv.innerHTML = '<p>No notes saved yet.</p>';
+            }
+        });
+
+        function deleteNote(noteId) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                database.ref('notes/' + noteId).remove().then(function() {
+                    alert('Note deleted!');
+                }).catch(function(error) {
+                    alert('Error deleting note: ' + error.message);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
